@@ -40,17 +40,14 @@
                         Plotly.Plots.resize(graph);
                     }
 
-                    scope.$watchGroup([
-                        function() {
-                            return scope.layout;
-                        },
-                        function() {
-                            return scope.data;
-                        }
-                    ], function(newValue, oldValue) {
-                        if (angular.equals(newValue, oldValue)) return;
+                    // If data updated redraw.
+                    var updateOnChange = function(newValue,oldValue){
+                        if ( initialized && angular.equals(newValue, oldValue)) return;
                         onUpdate();
-                    }, true);
+                    }
+                    // Monitor Data and Layout deeply.
+                    scope.$watch('data', updateOnChange, true);
+                    scope.$watch('layout', updateOnChange, true);
 
                     scope.$watch(function() {
                         return {
