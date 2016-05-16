@@ -48,20 +48,14 @@
                     // Monitor Data and Layout deeply.
                     scope.$watch('data', updateOnChange, true);
                     scope.$watch('layout', updateOnChange, true);
-
                     scope.$watch(function() {
                         return {
                             'h': element[0].offsetHeight,
                             'w': element[0].offsetWidth
                         };
-                    }, function(newValue, oldValue) {
-                        if (angular.equals(newValue, oldValue)) return;
-                        onResize();
-                    }, true);
+                    }, updateOnChange, true);
 
-                    angular.element($window).bind('resize', function() {
-                        onResize();
-                    });
+                    angular.element($window).bind('resize', onResize );
                 }
             };
         }
